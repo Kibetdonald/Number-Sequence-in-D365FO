@@ -1,0 +1,21 @@
+// Override the create method
+public void create(boolean _append = false)
+{
+    VendNumEDT vendNumEDT;
+    NumberSequenceReference numberSequenceReference;
+
+    super(_append);
+
+    // Find the number sequence reference based on the extended data type (VendNumEDT)
+    numberSequenceReference = NumberSeqReference::findReference(extendedTypeNum(VendNumEDT));
+    
+    // Check if a number sequence reference is found
+    if (numberSequenceReference)
+    {
+        // Generate the next number from the number sequence
+        vendNumEDT = NumberSeq::newGetNum(numberSequenceReference).num();
+        
+        // Assign the generated number to the vendor account number field
+        vendAccountTable.vendAccountNum = vendNumEDT;
+    }
+}

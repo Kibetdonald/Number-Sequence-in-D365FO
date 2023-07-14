@@ -1,0 +1,45 @@
+public class VendAccountNum extends NumberSeqApplicationModule
+{
+    protected void loadModule()
+    {
+        // Create a new NumberSeqDatatype object
+        NumberSeqDatatype datatype = NumberSeqDatatype::construct();
+
+        // Set the properties of the datatype object
+        // Set the extended data type ID
+        datatype.parmDatatypeId(extendedTypeNum(VendNumEDT)); 
+        // Set the reference help text
+        datatype.parmReferenceHelp(literalStr("Unique key used for the cars.")); 
+        // Set whether the number sequence is continuous
+        datatype.parmWizardIsContinuous(false);
+        // Set whether manual input is allowed 
+        datatype.parmWizardIsManual(NoYes::No); 
+         // Set the number of pre-generated numbers to fetch ahead
+        datatype.parmWizardFetchAheadQty(10);
+        // Set whether changing down is allowed
+        datatype.parmWizardIsChangeDownAllowed(NoYes::No); 
+        // Set whether changing up is allowed
+        datatype.parmWizardIsChangeUpAllowed(NoYes::No); 
+        // Set the sort field for the number sequence
+        datatype.parmSortField(1); 
+
+        // Add a parameter type to the datatype object (e.g., DataArea)
+        datatype.addParameterType(NumberSeqParameterType::DataArea, true, false);
+
+        // Create the number sequence using the configured datatype
+        this.create(datatype);
+    }
+
+    // Return the number sequence module for this class (e.g., "Cust", "Vend", "Sales", "Purch")
+    public NumberSeqModule numberSeqModule()
+    {
+        return NumberSeqModule::Vend;
+    }
+
+    // Subscribe to the NumberSeqGlobal class and add the custom module to the module names map
+    [SubscribesTo(classstr(NumberSeqGlobal), delegatestr(NumberSeqGlobal, buildModulesMapDelegate))]
+    static void buildModulesMapSubsciber(Map numberSeqModuleNamesMap)
+    {
+        NumberSeqGlobal::addModuleToMap(classnum(VendAccountNum), numberSeqModuleNamesMap);
+    }
+}

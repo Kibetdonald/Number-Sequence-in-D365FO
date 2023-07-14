@@ -1,0 +1,11 @@
+class VendAccountNumRunnableJob
+{
+    public static void main(Args _args)
+    {
+        // Create an instance of the VendAccountNum class
+        VendAccountNum vendNumSeq = new VendAccountNum();
+
+        // Load the number sequence module by calling the load method
+        vendNumSeq.load();
+    }
+}
